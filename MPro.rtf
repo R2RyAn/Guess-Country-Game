@@ -1,0 +1,102 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 package ca.yorku.mpro;\
+\
+import android.content.Context;\
+import android.widget.Toast;\
+\
+public class MPro \{\
+    public static final int AMORT_MIN =20;\
+    public static final int AMORT_MAX =30;\
+    public static final int INTEREST_MAX =50;\
+    public static final double EPSILON = 0.001;\
+    public static final int LENGTH_LONG=10;\
+    public static final int LENGTH_SHORT=5;\
+    \
+    double principle;\
+    int amortization;\
+    double interest;\
+\
+\
+    public void setPrinciple(String p)\{\
+        for (int i =0;i<p.length();i++) \{\
+            if(Character.isLetter(p.charAt(i))) \{\
+                throw new NumberFormatException("Error Enter Numbers only");\
+            \}\
+        \}\
+        double temp = Double.parseDouble(p);\
+        if(temp>0)\{\
+            principle=temp;\
+        \}\
+        else\{\
+            throw new ArithmeticException("Error Principle can't be negative");\
+        \}\
+    \}\
+\
+    public void setAmortization(String a)\{\
+        for (int i =0;i<a.length();i++) \{\
+            if (Character.isLetter(a.charAt(i))) \{\
+                throw new NumberFormatException("Error Enter Numbers only");\
+            \}\
+        \}\
+        int temp = Integer.parseInt(a);\
+\
+        if(temp>=AMORT_MIN && temp<=AMORT_MAX)\{\
+            this.amortization = temp;\
+        \}\
+        else\{\
+            throw new ArithmeticException("Error Enter a valid Number");\
+        \}\
+    \}\
+\
+    public void setInterest(String i)\{\
+        for (int j =0;j<i.length();j++) \{\
+            if (Character.isLetter(i.charAt(j))) \{\
+                throw new NumberFormatException("Error Enter Numbers only");\
+            \}\
+        \}\
+        double temp = Double.parseDouble(i);\
+\
+        if(temp>0 && temp<INTEREST_MAX)\{\
+            this.interest = temp;\
+        \}\
+        else\{\
+            throw new ArithmeticException("Error");\
+        \}\
+    \}\
+\
+\
+    public String computePayement(String fmt)\{\
+\
+        double iD = (interest/100)/12;\
+        int aD = amortization*12;\
+        double answer = (iD*principle)/(1-(Math.pow(1+iD,-aD)));\
+        return String.format(fmt,answer);\
+    \}\
+\
+    public String outstandingAfter(int years, String fmt)\{\
+        double iD = (interest/100)/12;\
+        int aD = amortization*12;\
+        double answer = (iD*principle)/(1-(Math.pow(1+iD,-aD)));\
+        double PMT = answer;\
+        double R = ((interest/100)/12);\
+        double N = (amortization - years)*12;\
+        double answer2 = (PMT/(R)*(1-(1/(Math.pow(1+R, N)))));\
+        return String.format("%,16.0f",answer2);\
+    \}\
+    \
+    public static Toast makeText(Context c, String s, int d)\{\
+        d=LENGTH_LONG;\
+        String Message = s;\
+        return "";\
+    \}\
+    \
+    \
+\
+\}\
+}
